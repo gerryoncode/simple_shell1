@@ -3,7 +3,7 @@
 int main(int argc, char **argv)
 {
 	char *start = "$ ";
-	char *line = NULL, line_cp = NULL;
+	char *line = NULL, *line_cp = NULL;
 	const char *delim = " \n";
 	size_t n = 0;
 	ssize_t read_chars;
@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 	char *token;
 	int j;
 
-	(void)argc; (void)argv;
+	(void)argc;
 
 	while(1)
 	{
@@ -29,17 +29,32 @@ int main(int argc, char **argv)
 			return (-1);
 		}
 		strcpy(line_cp, line);
-		token = strtok(line, delim);
-
-		while (token != NULL)
+		if (read_chars == -1)
 		{
-			i_tokens++;
-			token = strtok(NULL, delim);
+			printf("Existing shell...\n");
+			return (-1);
 		}
-		i_tokens++;
-		printf("%s\n", line);
-		
-		free(line);
+		else 
+		{
+			token = strtok(line, delim);
+			while (token != NULL)
+			{
+				i_tokens++;
+				token = strtok(NULL, delim);
+			}
+			i_tokens++;
+			argv = malloc(sizeof(char *) * i_tokens);
+			token = strtok(line_cp, delim);
+			for (j = 0; token != NULL; j++)
+			{
+				argv[j] = malloc(sizeof(char) * strlen(token));
+				strcpy(argv[j], token);
+				token = strtok(NULL, delim);
+			}
+			argv[j] = NULL;
+			printf("%s\n", line);
+			free(line);
+		}
+		return(0);
 	}
-	return(0);
 }
