@@ -29,32 +29,24 @@ int main(int argc, char **argv)
 			return (-1);
 		}
 		strcpy(line_cp, line);
-		if (read_chars == -1)
+		token = strtok(line, delim);
+		while (token != NULL)
 		{
-			printf("Existing shell...\n");
-			return (-1);
-		}
-		else 
-		{
-			token = strtok(line, delim);
-			while (token != NULL)
-			{
-				i_tokens++;
-				token = strtok(NULL, delim);
-			}
 			i_tokens++;
-			argv = malloc(sizeof(char *) * i_tokens);
-			token = strtok(line_cp, delim);
-			for (j = 0; token != NULL; j++)
-			{
-				argv[j] = malloc(sizeof(char) * strlen(token));
-				strcpy(argv[j], token);
-				token = strtok(NULL, delim);
-			}
-			argv[j] = NULL;
-			printf("%s\n", line);
-			free(line);
+			token = strtok(NULL, delim);
 		}
-		return(0);
+		i_tokens++;
+		argv = malloc(sizeof(char *) * i_tokens);
+		token = strtok(line_cp, delim);
+		for (j = 0; token != NULL; j++)
+		{
+			argv[j] = malloc(sizeof(char) * strlen(token));
+			strcpy(argv[j], token);
+			token = strtok(NULL, delim);
+		}
+		argv[j] = NULL;
+		execmd(argv);
 	}
+	free(line);
+	return (0);
 }
