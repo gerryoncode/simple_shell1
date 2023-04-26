@@ -1,5 +1,8 @@
 #include "main.h"
-
+/**
+ * execmd - executes a command
+ * @argv: arg vector
+ * Return: executes function
 void execmd(char **argv)
 {
 	char *cmd = NULL, *act_cmd = NULL;
