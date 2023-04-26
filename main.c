@@ -9,20 +9,18 @@
 
 int main(int argc, char **argv)
 {
-	char *start = "$ ";
 	char *line = NULL, *line_cp = NULL;
 	const char *delim = " \n";
 	size_t n = 0;
 	ssize_t read_chars;
 	int i_tokens = 0;
 	char *token;
-	int j;
-
+	int j, pid;
 	(void)argc;
 
 	while (1)
 	{
-		printf("%s", start);
+		printf("($)");
 		read_chars = getline(&line, &n, stdin);
 		if (read_chars == -1)
 		{
@@ -52,7 +50,17 @@ int main(int argc, char **argv)
 			token = strtok(NULL, delim);
 		}
 		argv[j] = NULL;
-		execmd(argv);
+		pid = fork();
+		if (pid == 0)
+		{
+			execmd(argv);
+			perror("exec");
+			exit(1);
+		}
+		else 
+		{
+			wait(NULL);
+		}
 	}
 	free(line);
 	return (0);
