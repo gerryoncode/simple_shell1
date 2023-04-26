@@ -1,4 +1,9 @@
 #include "main.h"
+/**
+ * get_location - gets location of the scriptt
+ * @command: arg containing the command
+ * Return: returns the path
+ */
 
 char *get_location(char *command)
 {

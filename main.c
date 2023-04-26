@@ -20,11 +20,11 @@ int main(int argc, char **argv)
 
 	(void)argc;
 
-	while(1)
+	while (1)
 	{
 		printf("%s", start);
 		read_chars = getline(&line, &n, stdin);
-		if(read_chars == -1)
+		if (read_chars == -1)
 		{
 			printf("Exiting..\n");
 			return (-1);
